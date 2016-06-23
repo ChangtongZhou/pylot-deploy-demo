@@ -1,8 +1,49 @@
 <html>
   <head>
     <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <title>Add a student to all bootcamp courses</title>
   </head>
   <body>
-    The best place to start is the "WelcomeController.py" file in app/controllers.
+    {% with messages = get_flashed_messages() %} 
+      {% if messages %} 
+        {% for message in messages %} 
+            <p>{{ message }}</p> 
+        {%  endfor %} 
+      {% endif %} 
+    {%  endwith %}
+
+    <h3>Add a new course</h3>
+    <form action="/courses/add" method="post">
+        <label>Name: </label>
+        <input type="text" name="title"><br>
+
+        <label>Description: </label>
+        <input type="text" name="description"><br>
+
+        <input id="add" type="submit" value="Add">
+    </form>
+
+    <h3>Courses</h3>
+    <div class="classes">
+        <table style = "width: 100%">
+          <tr>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Date Added</th>
+            <th>Action</th>
+          </tr>
+
+          {% for course in all_courses %}
+              <tr>
+                <td>{{course['title']}}</td>
+                <td>{{course['description']}}</td>
+                <td>{{course['created_at']}}</td>
+                <td><a href="/courses/delete/{{course['id']}}">Remove</a></td>
+              </tr>
+          {% endfor %}
+
+        </table>
+
+    </div>
   </body>
 </html>
